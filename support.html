@@ -10,7 +10,7 @@
     // Wird ausgeführt, sobald die Office-Anwendung bereit ist
     Office.onReady(function (info) {
       
-      // *** DAS IST DIE WICHTIGE KORREKTUR ***
+      // *** DAS IST DER FEHLENDE, WICHTIGE TEIL ***
       // Registriert die JavaScript-Funktion 'createSupportTicket'
       // damit das XML-Manifest (ExecuteFunction) sie finden kann.
       Office.actions.associate('createSupportTicket', createSupportTicket);
@@ -29,7 +29,6 @@
       });
 
       // Signalisiert Office, dass die Funktion erfolgreich abgeschlossen wurde.
-      // (Sehr wichtig, sonst denkt Outlook, das Add-in sei abgestürzt)
       event.completed();
     }
   </script>
