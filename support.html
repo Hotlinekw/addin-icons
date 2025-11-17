@@ -3,23 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <title>Support Ticket</title>
-  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/Office.js"></script>
+
   <script>
-    Office.onReady(function () {
-      // Office ist bereit
+    // Wird ausgeführt, sobald die Office-Anwendung bereit ist
+    Office.onReady(function (info) {
+      
+      // *** DAS IST DIE WICHTIGE KORREKTUR ***
+      // Registriert die JavaScript-Funktion 'createSupportTicket'
+      // damit das XML-Manifest (ExecuteFunction) sie finden kann.
+      Office.actions.associate('createSupportTicket', createSupportTicket);
+
     });
 
+    /**
+     * Diese Funktion wird vom Ribbon-Button aufgerufen.
+     * @param {Office.AddinCommands.Event} event - Das Klick-Ereignis.
+     */
     function createSupportTicket(event) {
-      // Neue Mail an Support
+      
+      // Öffnet ein neues E-Mail-Fenster mit vordefiniertem Empfänger
       Office.context.mailbox.displayNewMessageForm({
         toRecipients: ['support@kiener-wittlin.ch']
       });
 
-      // Add-in Prozess abschließen
+      // Signalisiert Office, dass die Funktion erfolgreich abgeschlossen wurde.
+      // (Sehr wichtig, sonst denkt Outlook, das Add-in sei abgestürzt)
       event.completed();
     }
   </script>
 </head>
 <body>
-</body>
+  </body>
 </html>
