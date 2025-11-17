@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Support Ticket</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script>
+    Office.onReady(function () {
+      // Office ist bereit
+    });
+
+    function createSupportTicket(event) {
+      // Neue Mail an Support
+      Office.context.mailbox.displayNewMessageForm({
+        toRecipients: ['support@kiener-wittlin.ch']
+      });
+
+      // Add-in Prozess abschließen
+      event.completed();
+    }
+  </script>
+</head>
+<body>
+</body>
+</html>
