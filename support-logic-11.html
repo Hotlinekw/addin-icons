@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+  <script>
+    Office.onReady(function () { });
+
+    function createSupportTicket(event) {
+      Office.context.mailbox.displayNewMessageForm({
+        toRecipients: ['support@kiener-wittlin.ch']
+      });
+      event.completed();
+    }
+  </script>
+</body>
+</html>
