@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp
+  xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+  xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+  xsi:type="MailApp">
+
+  <!-- Basisdaten -->
+  <Id>4e8c680e-bcdd-4fe4-8d2a-2d3d4d7c1234</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Kiener + Wittlin AG</ProviderName>
+  <DefaultLocale>de-CH</DefaultLocale>
+
+  <DisplayName DefaultValue="Support Ticket Button"/>
+  <Description DefaultValue="Erstellt eine neue E-Mail an support@kiener-wittlin.ch."/>
+
+  <!-- Icons im Add-Ins-Dialog -->
+  <IconUrl DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/icon32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/icon80.png"/>
+
+  <SupportUrl DefaultValue="https://www.kiener-wittlin.ch/"/>
+
+  <!-- optional, aber sauber -->
+  <AppDomains>
+    <AppDomain>https://raw.githubusercontent.com</AppDomain>
+  </AppDomains>
+
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+
+  <!-- Basis-Requirements (werden durch VersionOverrides überschrieben) -->
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.1"/>
+    </Sets>
+  </Requirements>
+
+  <!-- Pflicht für alte Clients, wird ignoriert wenn VersionOverrides vorhanden -->
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/support-logic-v11.html"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <Permissions>ReadWriteItem</Permissions>
+
+  <!-- Pflicht für Schema, aber bei VersionOverrides ignoriert -->
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+  </Rule>
+
+  <!-- Äusseres VersionOverrides (1.0), wie im offiziellen Beispiel -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides"
+                    xsi:type="VersionOverridesV1_0">
+
+    <!-- Inneres VersionOverrides (1.1) für Commands -->
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1"
+                      xsi:type="VersionOverridesV1_1">
+
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.13">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+
+            <!-- Function-File mit createTicket-Funktion -->
+            <FunctionFile resid="functionFile"/>
+
+            <!-- Button im Ribbon beim Lesen einer Mail -->
+            <ExtensionPoint xsi:type="MessageReadCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="supportTicketGroup">
+                  <Label resid="groupLabel"/>
+                  <Control xsi:type="Button" id="supportTicketButton">
+                    <Label resid="supportTicketButtonLabel"/>
+                    <Supertip>
+                      <Title resid="supportTicketButtonLabel"/>
+                      <Description resid="supportTicketButtonDescription"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="icon16"/>
+                      <bt:Image size="32" resid="icon32"/>
+                      <bt:Image size="80" resid="icon80"/>
+                    </Icon>
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>createTicket</FunctionName>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+
+      <!-- Ressourcen -->
+      <Resources>
+        <bt:Images>
+          <bt:Image id="icon16"
+                    DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/icon16.png"/>
+          <bt:Image id="icon32"
+                    DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/icon32.png"/>
+          <bt:Image id="icon80"
+                    DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/icon80.png"/>
+        </bt:Images>
+
+        <bt:Urls>
+          <bt:Url id="functionFile"
+                  DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/support-logic-v11.html"/>
+        </bt:Urls>
+
+        <bt:ShortStrings>
+          <bt:String id="groupLabel" DefaultValue="Support"/>
+          <bt:String id="supportTicketButtonLabel" DefaultValue="Support-Ticket"/>
+        </bt:ShortStrings>
+
+        <bt:LongStrings>
+          <bt:String id="supportTicketButtonDescription"
+                     DefaultValue="Erstellt eine neue E-Mail an support@kiener-wittlin.ch."/>
+        </bt:LongStrings>
+      </Resources>
+
+    </VersionOverrides>
+  </VersionOverrides>
+
+</OfficeApp>
