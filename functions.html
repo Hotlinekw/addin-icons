@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Support Ticket Functions</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+    <h1>Support Ticket Add-in</h1>
+    
+    <script>
+        // Office initialisieren
+        Office.onReady((info) => {
+            if (info.host === Office.HostType.Outlook) {
+                console.log("Outlook Add-in ready");
+            }
+        });
+
+        // ===== FUNKTION 1: NEUES TICKET ERSTELLEN =====
+        function createTicket() {
+            console.log("createTicket called");
+            try {
+                Office.context.mailbox.displayNewMessageForm({
+                    toRecipients: ["support@kiener-wittlin.ch"],
+                    subject: "Support Ticket",
+                    body: "Hallo Support-Team,\n\nbitte beschreiben Sie Ihr Anliegen:\n\n"
+                });
+            } catch (error) {
+                console.error("Fehler in createTicket:", error);
+            }
+        }
+
+        // ===== FUNKTION 2: AN SUPPORT WEITERLEITEN =====
+        function forwardToSupport() {
+            console.log("forwardToSupport called");
+            try {
+                const mailbox = Office.context.mailbox;
+                const item = mailbox.item;
+
+                if (item && item.itemType === Office.MailboxEnums.ItemType.Message) {
+                    mailbox.displayReplyAllForm({
+                        toRecipients: ["support@kiener-wittlin.ch"],
+                        subject: item.subject
+                    });
+                } else {
+                    console.log("Keine Mail ausgewählt");
+                }
+            } catch (error) {
+                console.error("Fehler in forwardToSupport:", error);
+            }
+        }
+
+        // Registriere die Funktionen
+        window.createTicket = createTicket;
+        window.forwardToSupport = forwardToSupport;
+    </script>
+</body>
+</html>
