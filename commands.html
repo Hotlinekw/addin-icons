@@ -7,33 +7,50 @@
 </head>
 <body>
     <script>
+        // Warte bis Office geladen ist
+        Office.onReady(() => {
+            console.log("Office ready");
+        });
+
         // Funktion 1: Neues Ticket erstellen
         function createTicket() {
-            const mailbox = Office.context.mailbox;
-            
-            mailbox.displayNewMessageForm({
-                toRecipients: ["support@kiener-wittlin.ch"],
-                subject: "Support Ticket",
-                body: "Hallo Support-Team,\n\nbitte beschreiben Sie Ihr Anliegen:\n\n"
-            });
+            try {
+                const mailbox = Office.context.mailbox;
+                
+                mailbox.displayNewMessageForm({
+                    toRecipients: ["support@kiener-wittlin.ch"],
+                    subject: "Support Ticket",
+                    body: "Hallo Support-Team,\n\nbitte beschreiben Sie Ihr Anliegen:\n\n"
+                });
+            } catch (error) {
+                console.error("Error in createTicket:", error);
+            }
         }
 
         // Funktion 2: Mail an Support weiterleiten
         function forwardToSupport() {
-            const mailbox = Office.context.mailbox;
-            const item = mailbox.item;
+            try {
+                const mailbox = Office.context.mailbox;
+                const item = mailbox.item;
 
-            if (item && item.itemType === Office.MailboxEnums.ItemType.Message) {
-                mailbox.displayReplyAllForm({
-                    toRecipients: ["support@kiener-wittlin.ch"],
-                    subject: item.subject
-                });
+                if (item && item.itemType === Office.MailboxEnums.ItemType.Message) {
+                    mailbox.displayReplyAllForm({
+                        toRecipients: ["support@kiener-wittlin.ch"],
+                        subject: item.subject
+                    });
+                } else {
+                    console.log("No message selected");
+                }
+            } catch (error) {
+                console.error("Error in forwardToSupport:", error);
             }
         }
 
-        // Registriere die Funktionen global
-        window.createTicket = createTicket;
-        window.forwardToSupport = forwardToSupport;
+        // Registriere die Funktionen global - WICHTIG!
+        if (typeof window !== 'undefined') {
+            window.createTicket = createTicket;
+            window.forwardToSupport = forwardToSupport;
+        }
     </script>
 </body>
 </html>
