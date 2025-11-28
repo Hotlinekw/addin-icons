@@ -8,7 +8,7 @@
 
   <!-- Basisdaten -->
   <Id>4e8c680e-bcdd-4fe4-8d2a-2d3d4d7c1234</Id>
-  <Version>1.0.0.2</Version>
+  <Version>1.0.0.3</Version>
   <ProviderName>Kiener + Wittlin AG</ProviderName>
   <DefaultLocale>de-CH</DefaultLocale>
 
@@ -67,10 +67,10 @@
         <Host xsi:type="MailHost">
           <DesktopFormFactor>
 
-            <!-- Function-File -->
+            <!-- Function-File mit inline Funktionen -->
             <FunctionFile resid="functionFile"/>
 
-            <!-- BUTTON IM "MELDEN" RIBBON BEIM LESEN EINER MAIL -->
+            <!-- BUTTON BEIM LESEN EINER MAIL -->
             <ExtensionPoint xsi:type="MessageReadCommandSurface">
               <OfficeTab id="TabDefault">
                 <Group id="supportTicketGroup">
@@ -96,7 +96,7 @@
               </OfficeTab>
             </ExtensionPoint>
 
-            <!-- BUTTON IM "MELDEN" RIBBON BEIM SCHREIBEN EINER MAIL -->
+            <!-- BUTTON BEIM SCHREIBEN EINER MAIL -->
             <ExtensionPoint xsi:type="MessageComposeCommandSurface">
               <OfficeTab id="TabDefault">
                 <Group id="supportTicketComposeGroup">
@@ -139,7 +139,7 @@
 
         <bt:Urls>
           <bt:Url id="functionFile"
-                  DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/commands.html"/>
+                  DefaultValue="https://raw.githubusercontent.com/hotlinekw/addin-icons/main/functions.html"/>
         </bt:Urls>
 
         <bt:ShortStrings>
