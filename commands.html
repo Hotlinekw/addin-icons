@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Support Commands</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+</head>
+<body>
+    <script>
+        Office.onReady((info) => {
+            if (info.host === Office.HostType.Outlook) {
+                console.log("Support Add-in ready");
+            }
+        });
+
+        // Funktion 1: Neues Ticket erstellen
+        function createTicket() {
+            const mailbox = Office.context.mailbox;
+            
+            mailbox.displayNewMessageForm({
+                toRecipients: ["support@kiener-wittlin.ch"],
+                subject: "Support Ticket",
+                body: "Hallo Support-Team,\n\nbitte beschreiben Sie Ihr Anliegen:\n\n"
+            });
+        }
+
+        // Funktion 2: Mail an Support weiterleiten
+        function forwardToSupport() {
+            const mailbox = Office.context.mailbox;
+            const item = mailbox.item;
+
+            if (item && item.itemType === Office.MailboxEnums.ItemType.Message) {
+                mailbox.displayReplyAllForm({
+                    toRecipients: ["support@kiener-wittlin.ch"],
+                    subject: item.subject
+                });
+            }
+        }
+
+        // Registriere die Funktionen
+        if (Office.actions) {
+            Office.actions.associate("createTicket", createTicket);
+            Office.actions.associate("forwardToSupport", forwardToSupport);
+        }
+    </script>
+</body>
+</html>
