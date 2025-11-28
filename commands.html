@@ -7,12 +7,6 @@
 </head>
 <body>
     <script>
-        Office.onReady((info) => {
-            if (info.host === Office.HostType.Outlook) {
-                console.log("Support Add-in ready");
-            }
-        });
-
         // Funktion 1: Neues Ticket erstellen
         function createTicket() {
             const mailbox = Office.context.mailbox;
@@ -37,11 +31,9 @@
             }
         }
 
-        // Registriere die Funktionen
-        if (Office.actions) {
-            Office.actions.associate("createTicket", createTicket);
-            Office.actions.associate("forwardToSupport", forwardToSupport);
-        }
+        // Registriere die Funktionen global
+        window.createTicket = createTicket;
+        window.forwardToSupport = forwardToSupport;
     </script>
 </body>
 </html>
