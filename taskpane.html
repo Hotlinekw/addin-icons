@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Support Ticket System</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #0078d4;
+            margin-top: 0;
+        }
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #106ebe;
+        }
+        .info {
+            background-color: #e7f3ff;
+            padding: 12px;
+            border-left: 4px solid #0078d4;
+            margin: 15px 0;
+            border-radius: 2px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📧 Support Ticket System</h2>
+        
+        <div class="info">
+            <strong>Kiener + Wittlin AG</strong><br>
+            Support: support@kiener-wittlin.ch
+        </div>
+        
+        <button onclick="createNewTicket()">✏️ Neues Ticket erstellen</button>
+        <button onclick="forwardToSupport()">↩️ An Support weiterleiten</button>
+        
+        <div class="info">
+            <strong>Hinweis:</strong><br>
+            Diese Buttons sind auch direkt im Outlook-Ribbon im Support-Bereich verfügbar.
+        </div>
+    </div>
+
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script>
+        function createNewTicket() {
+            const mailbox = Office.context.mailbox;
+            mailbox.displayNewMessageForm({
+                toRecipients: ["support@kiener-wittlin.ch"],
+                subject: "Support Ticket",
+                body: "Hallo Support-Team,\n\nbitte beschreiben Sie Ihr Anliegen:\n\n"
+            });
+        }
+
+        function forwardToSupport() {
+            const mailbox = Office.context.mailbox;
+            const item = mailbox.item;
+
+            if (item) {
+                mailbox.displayReplyAllForm({
+                    toRecipients: ["support@kiener-wittlin.ch"]
+                });
+            } else {
+                alert("Bitte öffne eine Mail, um diese Funktion zu nutzen.");
+            }
+        }
+    </script>
+</body>
+</html>
